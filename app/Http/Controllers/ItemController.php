@@ -308,6 +308,8 @@ class ItemController extends Controller
                 'created_at' => now(),
             ];
         }
+        $inventoryItem->quantity=$inventoryItem->quantity - $quantity;
+        $inventoryItem->save();
 
         $request->session()->put('cart', $cart);
 
