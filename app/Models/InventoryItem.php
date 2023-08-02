@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 class InventoryItem extends Model
 {
     use HasFactory;
+
+
 //    public function addToCart(Request $request, $id)
 //    {
 //        $item = Item::find($id);
@@ -49,7 +51,7 @@ class InventoryItem extends Model
 //        return redirect()->route('items.index')->with('success', 'Item added to cart successfully.');
 //    }
 
-    protected $fillable = ['item_id','inventory_id', 'quantity'];
+    protected $fillable = ['item_id', 'inventory_id', 'quantity'];
 
     protected $guarded = [];
 
@@ -62,6 +64,8 @@ class InventoryItem extends Model
     {
         return $this->belongsTo(Inventory::class);
     }
+
+
 
 
 }

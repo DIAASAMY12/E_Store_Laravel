@@ -251,7 +251,6 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         $inventoryItem = InventoryItem::where('item_id', $item->id)->first();
-        $vendorItem = VendorItem::where('item_id', $item->id)->first();
         if (!$item) {
             return redirect()->route('items.index')->with('error', 'Item not found.');
         }
@@ -282,14 +281,13 @@ class ItemController extends Controller
                     'created_at' => now(),
                 ];
             }
+
+            $item->total_purchases += $quantity;
+            $item->save();
+
+
             $inventoryItem->quantity -= $quantity;
             $inventoryItem->save();
-
-
-//            if ($vendorItem) {
-//                $vendorItem->quantity -= $quantity;
-//                $vendorItem->save();
-//            }
 
             $request->session()->put('cart', $cart);
 
