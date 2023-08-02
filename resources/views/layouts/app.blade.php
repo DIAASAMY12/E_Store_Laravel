@@ -209,7 +209,6 @@
                         </li>
                     @endguest
 
-
                 </ul>
 
 
@@ -258,6 +257,9 @@
         @yield('content')
     </main>
 </div>
+<footer  class="container navbar navbar-expand-md navbar-light bg-white shadow-lg" style="margin-bottom:15px;display: flex;align-items: center;justify-content: center;">
+    <div style="font-size: 20px; ">Develop by Diaa Harazeen</div>
+</footer>
 </body>
 <script>
     document.getElementById('run-seeder-btn').addEventListener('click', function () {

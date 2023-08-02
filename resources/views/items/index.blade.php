@@ -75,7 +75,7 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <form action="{{ route('cart.add', $item->id) }}" method="POST">
+                    <form action="{{ route('cart.add', $item->id) }}" method="POST"style="display: inline">
                         @csrf
                         <input id="quantity" type="number" name="quantity">
                         <button type="submit">Add to Cart</button>

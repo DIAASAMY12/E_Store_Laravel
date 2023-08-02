@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\InventoryItem;
 use App\Models\Item;
 use App\Models\Vendor;
+use App\Models\VendorItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -246,74 +247,59 @@ class ItemController extends Controller
         ];
     }
 
-//    public function addToCart(Request $request, $id)
-//    {
-//        $item = Item::find($id);
-////        $inventoryItem = InventoryItem::where('item_id', $item->id)->first();
-//        if (!$item) {
-//            return redirect()->route('items.index')->with('error', 'Item not found.');
-//        }
-////        if (!$inventoryItem) {
-////            return redirect()->route('items.index')->with('error', 'Item not found.');
-////        }
-//        $quantity = $request->input('quantity');
-//
-//        $cart = $request->session()->get('cart', []);
-//
-//
-//        $cart[] = [
-//            'item_id' => $item->id,
-//            'name' => $item->name,
-////            'quantity' => $inventoryItem->quantity,
-//            'quantity' => $quantity,
-//            'created_at' => now(),
-//        ];
-//
-//        $request->session()->put('cart', $cart);
-//
-//        return redirect()->route('items.index')->with('success', 'Item added to cart successfully.');
-//    }
-
-
     public function addToCart(Request $request, $id)
     {
         $item = Item::find($id);
         $inventoryItem = InventoryItem::where('item_id', $item->id)->first();
+        $vendorItem = VendorItem::where('item_id', $item->id)->first();
         if (!$item) {
             return redirect()->route('items.index')->with('error', 'Item not found.');
         }
 
         $quantity = $request->input('quantity');
 
-        $cart = $request->session()->get('cart', []);
+        if ($quantity < $inventoryItem->quantity) {
+            $cart = $request->session()->get('cart', []);
 
-        // Check if the item with the same ID already exists in the cart
-        $itemIndex = null;
-        foreach ($cart as $index => $cartItem) {
-            if ($cartItem['item_id'] === $item->id) {
-                $itemIndex = $index;
-                break;
+            // Check if the item with the same ID already exists in the cart
+            $itemIndex = null;
+            foreach ($cart as $index => $cartItem) {
+                if ($cartItem['item_id'] === $item->id) {
+                    $itemIndex = $index;
+                    break;
+                }
             }
-        }
 
-        if ($itemIndex !== null) {
-            // Item with the same ID already exists in the cart, update the quantity
-            $cart[$itemIndex]['quantity'] += $quantity;
+            if ($itemIndex !== null) {
+                // Item with the same ID already exists in the cart, update the quantity
+                $cart[$itemIndex]['quantity'] += $quantity;
+            } else {
+                // Item does not exist in the cart, add it as a new entry
+                $cart[] = [
+                    'item_id' => $item->id,
+                    'name' => $item->name,
+                    'quantity' => $quantity,
+                    'created_at' => now(),
+                ];
+            }
+            $inventoryItem->quantity -= $quantity;
+            $inventoryItem->save();
+
+
+//            if ($vendorItem) {
+//                $vendorItem->quantity -= $quantity;
+//                $vendorItem->save();
+//            }
+
+            $request->session()->put('cart', $cart);
+
+            return redirect()->route('items.index')->with('success', 'Item added to cart successfully.');
+
         } else {
-            // Item does not exist in the cart, add it as a new entry
-            $cart[] = [
-                'item_id' => $item->id,
-                'name' => $item->name,
-                'quantity' => $quantity,
-                'created_at' => now(),
-            ];
+            return redirect()->route('items.index')->with('error', 'Not enough quantity in inventory.');
+
         }
-        $inventoryItem->quantity=$inventoryItem->quantity - $quantity;
-        $inventoryItem->save();
 
-        $request->session()->put('cart', $cart);
-
-        return redirect()->route('items.index')->with('success', 'Item added to cart successfully.');
     }
 
 

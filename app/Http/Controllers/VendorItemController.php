@@ -39,10 +39,23 @@ class VendorItemController extends Controller
             'quantity' => 'required|integer|min:0',
         ]);
 
-        VendorItem::create($request->all());
+        // Find the existing VendorItem record
+        $existingVendorItem = VendorItem::where('vendor_id', $request->vendor_id)
+            ->where('item_id', $request->item_id)
+            ->first();
+
+        if ($existingVendorItem) {
+            // Update the quantity if the record exists
+            $existingVendorItem->quantity += $request->quantity;
+            $existingVendorItem->save();
+        } else {
+            // Create a new VendorItem record if it doesn't exist
+            VendorItem::create($request->all());
+        }
 
         return redirect()->route('vendor_items.index')->with('success', 'Vendor item created successfully.');
     }
+
 
     /**
      * Display the specified resource.

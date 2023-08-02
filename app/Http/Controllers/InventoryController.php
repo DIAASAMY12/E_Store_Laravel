@@ -43,8 +43,6 @@ class InventoryController extends Controller
         Inventory::create($validatedData);
 
         return redirect()->route('inventories.index')->with('success', 'Inventory created successfully.');
-
-
     }
 
     /**

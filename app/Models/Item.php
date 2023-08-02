@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Item extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'image', 'brand_id', 'is_active'];
+
+    protected $fillable = ['name', 'image', 'brand_id', 'is_active', 'price', 'total_purchases', 'total_sales','stop_purchasing'];
 
     protected $guarded = [];
 
@@ -76,10 +78,21 @@ class Item extends Model
 
     public function vendorItems()
     {
-        return $this->hasMany(VendorItem::class);
+        return $this->hasone(VendorItem::class);
+    }
+
+    public function inventoryItems()
+    {
+        return $this->hasone(InventoryItem::class);
     }
 
     public function vendors()
+    {
+        return $this->belongsToMany(Vendor::class, 'vendor_items', 'item_id', 'vendor_id')
+            ->withPivot('quantity');
+    }
+
+    public function vendor(): BelongsToMany
     {
         return $this->belongsToMany(Vendor::class, 'vendor_items', 'item_id', 'vendor_id')
             ->withPivot('quantity');
@@ -91,11 +104,16 @@ class Item extends Model
             ->withPivot('quantity');
     }
 
-    public function inventoryItems()
-    {
-        return $this->belongsToMany(Inventory::class, 'inventory_items', 'item_id', 'inventory_id')
-            ->withPivot('quantity');
-    }
+//    public function inventoryItems()
+//    {
+//        return $this->belongsTo(Inventory::class, 'inventory_items', 'item_id', 'inventory_id')
+//            ->withPivot('quantity');
+//    }
 
+    public function addQuantityToInventory($quantity)
+    {
+        $this->total_purchases += $quantity;
+        $this->save();
+    }
 
 }

@@ -21,7 +21,7 @@ class Inventory extends Model
 
     public function inventoryItems()
     {
-        return $this->hasMany(InventoryItem::class);
+        return $this->hasone(InventoryItem::class);
     }
 
 }

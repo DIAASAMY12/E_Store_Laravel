@@ -35,7 +35,7 @@ class Vendor extends Model
 
     public function vendorItems()
     {
-        return $this->hasMany(VendorItem::class);
+        return $this->hasone(VendorItem::class);
     }
 
 }

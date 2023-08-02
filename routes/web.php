@@ -11,6 +11,8 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemControllerUser;
+use App\Http\Controllers\LowQuantityEmailController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SeederController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
@@ -91,6 +93,7 @@ Route::resource('cities', CityController::class);
 Route::resource('inventory_items', InventoryItemController::class);
 
 Route::resource('vendor_items', VendorItemController::class);
+
 Route::middleware('not_admin')->group(function () {
 
 
@@ -100,5 +103,10 @@ Route::middleware('not_admin')->group(function () {
 
     Route::post('/items/{id}/add-to-cart', [ItemController::class, 'addToCart'])->name('cart.add');
 
+    Route::get('/purchase_orders', [PurchaseOrderController::class, 'index'])->name('purchase_orders.index');
+
+    Route::post('purchase-order', [PurchaseOrderController::class, 'createPurchaseOrder'])->name('purchase-order.create');
+
 });
+
 
