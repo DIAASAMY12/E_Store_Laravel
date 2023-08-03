@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\LowQuantityEmail;
+use App\Mail\LowQuantityEmail2;
 use App\Models\Inventory;
 use App\Models\InventoryItem;
 use App\Models\Item;
@@ -121,10 +122,9 @@ class PurchaseOrderController extends Controller
 
     public function destroy(PurchaseOrder $purchaseOrder)
     {
-        // Delete the purchase order
-        $purchaseOrder->delete();
-
-        return redirect()->route('purchase_orders.index')->with('success', 'Purchase order deleted successfully.');
+        $purchaseOrder->truncate();
+        $purchaseOrders = PurchaseOrder::all();
+        return redirect(view('purchase_orders.index',compact('purchaseOrders')))->with('success', 'All purchase orders have been deleted.');
     }
 
 
@@ -162,8 +162,13 @@ class PurchaseOrderController extends Controller
 
             if ($hasLowQuantity) {
                 $vendor = $item->vendor()->first();
+                $activeVendors = $item->vendors->where('is_active', true);
+
                 if ($vendor) {
-                    Mail::to($vendor->email)->send(new LowQuantityEmail($item, $vendor));
+                    Mail::to($vendor->email)->queue(new LowQuantityEmail($item, $vendor));
+                    foreach ($activeVendors as $vendor) {
+                        Mail::to($vendor->email)->queue(new LowQuantityEmail2($item, $vendor));
+                    }
                 } else {
                     return redirect(view('welcome'));
                 }

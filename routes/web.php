@@ -10,8 +10,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryItemController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ItemControllerUser;
-use App\Http\Controllers\LowQuantityEmailController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SeederController;
 use App\Http\Controllers\UserController;
@@ -103,6 +101,8 @@ Route::middleware('not_admin')->group(function () {
     Route::get('/purchase_orders', [PurchaseOrderController::class, 'index'])->name('purchase_orders.index');
 
     Route::post('purchase-order', [PurchaseOrderController::class, 'createPurchaseOrder'])->name('purchase-order.create');
+
+    Route::delete('/purchase_orders', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 
 });
 
