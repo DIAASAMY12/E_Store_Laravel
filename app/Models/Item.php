@@ -116,19 +116,5 @@ class Item extends Model
         $this->save();
     }
 
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        // Event listener for the "saved" event of the Item model
-//        static::saved(function ($item) {
-//            // Calculate the total_purchases based on the sum of quantity from associated inventory items
-//            $totalPurchases = $item->inventoryItems()->sum('quantity');
-//
-//            // Update the total_purchases attribute
-//            $item->update(['total_purchases' => $totalPurchases]);
-//        });
-//    }
-
 
 }

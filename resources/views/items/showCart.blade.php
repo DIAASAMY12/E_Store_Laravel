@@ -11,10 +11,10 @@
                 </li>
             @endforeach
         </ul>
-{{--        <form action="{{ route('cart.clear') }}" method="POST">--}}
-        {{--            @csrf--}}
-        {{--            <button type="submit">Clear Cart</button>--}}
-        {{--        </form>--}}
+        <form action="{{ route('cart.clear') }}" method="POST">
+            @csrf
+            <button type="submit">Clear Cart</button>
+        </form>
 
         <form action="{{ route('purchase-order.create') }}" method="post">
             @csrf

@@ -13,44 +13,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-//        $users = User::latest()->paginate(10);
-//        return view('users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
-
-
-//        $query = User::query();
-//
-//        // Check for username filter
-//        if ($request->has('username')) {
-//            $query->where('username', 'like', '%' . $request->input('username') . '%');
-//        }
-//
-//        // Check for email filter
-//        if ($request->has('email')) {
-//            $query->where('email', 'like', '%' . $request->input('email') . '%');
-//        }
-//
-//        // Check for name filter
-//        if ($request->has('name')) {
-//            $name = $request->input('name');
-//            $query->where(function ($query) use ($name) {
-//                $query->where('first_name', 'like', '%' . $name . '%')
-//                    ->orWhere('last_name', 'like', '%' . $name . '%');
-//            });
-//        }
-//
-//        // Check for is_active filter
-//        if ($request->has('is_active')) {
-//            $query->where('is_active', (int)$request->input('is_active'));
-//        }
-//
-//        // Check for is_admin filter
-//        if ($request->has('is_admin')) {
-//            $query->where('is_admin', (int)$request->input('is_admin'));
-//        }
-//
-//        // Get the filtered users
-//        $users = $query->paginate(10);
-
         $query = User::query();
 
         if ($request->has('username')) {

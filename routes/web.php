@@ -37,7 +37,7 @@ Route::get('/', function () {
 //Route::resource('users', UserController::class);
 
 Route::resource('users', UserController::class)->names([
-//    'index' => 'users.index',
+    'index' => 'users.index',
     'create' => 'users.create',
     'store' => 'users.store',
     'show' => 'users.show',
@@ -93,7 +93,9 @@ Route::middleware('not_admin')->group(function () {
 
 
 //    Route::get('/cart/add/{item}', [CartController::class, 'add'])->name('cart.add');
+
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
     Route::post('/items/{id}/add-to-cart', [ItemController::class, 'addToCart'])->name('cart.add');
@@ -105,5 +107,4 @@ Route::middleware('not_admin')->group(function () {
     Route::delete('/purchase_orders', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 
 });
-
 

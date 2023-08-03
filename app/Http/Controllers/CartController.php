@@ -8,30 +8,7 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-//    public function add(Request $request, $item)
-//    {
-//        $quantity = $request->input('quantity', 1);
-//
-//        // Get the item from the database based on the given item ID
-//        $item = Item::find($item);
-//
-//        if (!$item) {
-//            return redirect()->back()->with('error', 'Item not found.');
-//        }
-//
-//        // Create a cart item array with item details
-//        $cartItem = [
-//            'item_id' => $item->id,
-//            'name' => $item->name,
-//            'quantity' => $quantity,
-//            'created_at' => now(),
-//        ];
-//
-//        // Add the cart item to the cart session
-//        $request->session()->push('cart', $cartItem);
-//
-//        return redirect()->back()->with('success', 'Item added to cart successfully.');
-//    }
+
 
     public function show()
     {

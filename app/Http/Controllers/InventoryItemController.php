@@ -30,19 +30,6 @@ class InventoryItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-//    public function store(Request $request)
-//    {
-//        $request->validate([
-//            'item_id' => 'required|exists:items,id',
-//            'inventory_id' => 'required|exists:inventories,id',
-//            'quantity' => 'required|integer|min:0',
-//        ]);
-//
-//        InventoryItem::create($request->all());
-//
-//        return redirect()->route('inventory_items.index')->with('success', 'Inventory item created successfully.');
-//
-//    }
 
     public function store(Request $request)
     {

@@ -76,26 +76,6 @@ class User extends Authenticatable
         $this->fillable = $fillable;
     }
 
-//    public function setIsAdminAttribute($value)
-//    {
-//        $this->attributes['is_admin'] = $value ? 1 : 0;
-//    }
-//
-//    public function setIsActiveAttribute($value)
-//    {
-//        $this->attributes['is_active'] = $value ? 1 : 0;
-//    }
-//
-//    public function getIsAdminAttribute($value)
-//    {
-//        return $value === 1;
-//    }
-//
-//    public function getIsActiveAttribute($value)
-//    {
-//        return $value === 1;
-//    }
-
     /**
      * The attributes that should be hidden for serialization.
      *

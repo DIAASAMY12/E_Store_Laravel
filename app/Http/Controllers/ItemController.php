@@ -65,59 +65,6 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-//        $request->validate([
-//            'name' => [
-//                'required',
-//                'string',
-//                'max:255',
-//                'unique:items,name,id,brand_id,' . request()->input('brand_id'),
-//            ],
-//            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-//            'brand_id' => 'required|exists:brands,id',
-//            'is_active' => 'required|boolean',
-//        ]);
-//
-//        $input = $request->all();
-//
-//        if ($image = $request->file('image')) {
-//            $destinationPath = 'imagesItems/';
-//            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-//            $image->move($destinationPath, $profileImage);
-//            $input['image'] = "$profileImage";
-//        }
-//
-//        Item::create($input);
-//
-//        return redirect()->route('items.index')->with('success', 'Item created successfully.');
-
-//        $validatedData = $request->validate($this->validationRules());
-
-
-//        if ($image = $request->file('image')) {
-//            $destinationPath = 'imagesItems/';
-//            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-//            $image->move($destinationPath, $profileImage);
-//            $input['image'] = "$profileImage";
-//        }
-
-
-//        Item::create([
-//            'name' => $validatedData['name'],
-//            'brand_id' => $validatedData['brand_id'],
-//            'image' => $request->file('image') ? $request->file('image')->store('public/imagesItems/') : null,
-//            'is_active' => $request->input('is_active', true),
-//        ]);
-//
-//
-//
-//
-//
-//        // If you want to create related records in ItemInventory and ItemVendor
-////        $item->inventories()->create(['quantity' => 0]);
-////        $item->vendors()->create(['quantity' => 0]);
-//
-//        return redirect()->route('items.index')->with('success', 'Item created successfully.');
-
 
         $validator = Validator::make($request->all(), $this->validationRules());
 
@@ -168,28 +115,6 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-//        $validatedData = $request->validate($this->validationRules($item->id));
-//
-//        $item->update([
-//            'name' => $validatedData['name'],
-//            'brand_id' => $validatedData['brand_id'],
-//            'image' => $request->file('image') ? $request->file('image')->store('imagesItems') : $item->image,
-//            'is_active' => $request->input('is_active', false),
-//        ]);
-//
-////        $input = $request->all();
-////
-////        if ($image = $request->file('image')) {
-////            $destinationPath = 'imagesItems/';
-////            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-////            $image->move($destinationPath, $profileImage);
-////            $input['image'] = "$profileImage";
-////        } else {
-////            unset($input['image']);
-////        }
-//
-////        $item->update($input);
-//        return redirect()->route('items.index')->with('success', 'Item updated successfully.');
 
         $validator = Validator::make($request->all(), $this->validationRules($item->id));
 
