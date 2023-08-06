@@ -104,7 +104,6 @@ Route::resource('vendor_items', VendorItemController::class);
 Route::middleware('not_admin')->group(function () {
 
 
-
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
