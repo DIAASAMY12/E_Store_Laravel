@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\CustomForgotPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
@@ -102,7 +104,6 @@ Route::resource('vendor_items', VendorItemController::class);
 Route::middleware('not_admin')->group(function () {
 
 
-//    Route::get('/cart/add/{item}', [CartController::class, 'add'])->name('cart.add');
 
     Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
 
@@ -117,4 +118,3 @@ Route::middleware('not_admin')->group(function () {
     Route::delete('/purchase_orders', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 
 });
-

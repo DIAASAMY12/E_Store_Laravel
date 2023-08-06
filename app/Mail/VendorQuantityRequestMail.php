@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Item;
 use App\Models\Vendor;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,16 +15,16 @@ class VendorQuantityRequestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $item;
     public $vendor;
+    public $item;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($item, $vendor)
+    public function __construct(Vendor $vendor, Item $item = null)
     {
-        $this->item = $item;
         $this->vendor = $vendor;
+        $this->item = $item;
     }
 
 //    /**
@@ -33,12 +34,10 @@ class VendorQuantityRequestMail extends Mailable implements ShouldQueue
 //     */
     public function build()
     {
-        return $this->view('emails.vendor_quantity_request')
-            ->subject('New Quantity Request')
-            ->with([
-                'item' => $this->item,
-                'vendor' => $this->vendor,
-            ]);
+        $subject = $this->item ? 'Request for New Quantity for Item: ' . $this->item->name : 'Request for New Quantity';
+
+        return $this->subject($subject)
+            ->view('emails.vendor_quantity_request');
     }
 
     /**
