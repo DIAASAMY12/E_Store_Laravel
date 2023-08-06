@@ -77,9 +77,9 @@ class PurchaseOrderController extends Controller
 
     public function destroy(PurchaseOrder $purchaseOrder)
     {
-        $purchaseOrder->truncate();
         $purchaseOrders = PurchaseOrder::all();
-        return redirect(view('purchase_orders.index',compact('purchaseOrders')))->with('success', 'All purchase orders have been deleted.');
+        $purchaseOrder->truncate();
+        return redirect(view('purchase_orders.index', compact('purchaseOrders')))->with('success', 'All purchase orders have been deleted.');
     }
 
 

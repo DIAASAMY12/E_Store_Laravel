@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -9,6 +8,16 @@
         <div class="alert alert-danger">
             {{ session('error')}}
         </div>
+        {{--        @php--}}
+        {{--            exit;--}}
+        {{--        @endphp--}}
     @endif
+
+{{--    @php--}}
+{{--        header("Location: " . route('items.index'));--}}
+{{--//        exit;--}}
+{{--    @endphp--}}
+
+
 
 @endsection

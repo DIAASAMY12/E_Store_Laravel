@@ -55,7 +55,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
 // Authentication routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -80,6 +80,16 @@ Route::resource('inventories', InventoryController::class);
 Route::resource('brands', BrandController::class);
 
 Route::resource('items', ItemController::class);
+
+Route::resource('items', ItemController::class)->names([
+    'index' => 'items.index',
+    'create' => 'items.create',
+    'store' => 'items.store',
+    'show' => 'items.show',
+    'edit' => 'items.edit',
+    'update' => 'items.update',
+    'destroy' => 'items.destroy',
+]);
 
 Route::resource('countries', CountryController::class);
 
