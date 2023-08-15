@@ -11,7 +11,6 @@
         <table class="table mt-3">
 
 
-
             <thead>
             <tr>
                 <th>ID</th>
@@ -55,6 +54,11 @@
             @endforeach
             </tbody>
         </table>
-        <a href="{{ route('purchase_orders.destroy') }}" class="btn btn-success">purchase</a>
+        <form action="{{ route('purchase_orders.destroy') }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" class="btn btn-danger">Purchase</button>
+        </form>
     @endif
 @endsection

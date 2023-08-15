@@ -42,6 +42,7 @@ class User extends Authenticatable
     {
         return $query->where('email', 'like', '%' . $email . '%');
     }
+
     public function scopeFilterByName($query, $name)
     {
         return $query->where(function ($query) use ($name) {
@@ -52,12 +53,12 @@ class User extends Authenticatable
 
     public function scopeFilterByIsActive($query, $isActive)
     {
-        return $query->where('is_active', (int) $isActive);
+        return $query->where('is_active', (int)$isActive);
     }
 
     public function scopeFilterByIsAdmin($query, $isAdmin)
     {
-        return $query->where('is_admin', (int) $isAdmin);
+        return $query->where('is_admin', (int)$isAdmin);
     }
 
     /**
@@ -100,10 +101,25 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+
+    protected $appends = ['full_name', 'address'];
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getAddressAttribute()
+    {
+        if ($this->addresses()->exists()) {
+            return $this->addresses()->first();
+        }
+
+        return null;
+    }
+
     public function addresses()
     {
         return $this->hasMany(Address::class, 'addressable_id');
     }
-
-
 }

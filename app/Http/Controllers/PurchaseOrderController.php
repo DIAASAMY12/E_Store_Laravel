@@ -75,11 +75,11 @@ class PurchaseOrderController extends Controller
         return redirect()->route('purchase_orders.index')->with('success', 'Purchase order updated successfully.');
     }
 
-    public function destroy(PurchaseOrder $purchaseOrder)
+    public function destroy()
     {
-        $purchaseOrders = PurchaseOrder::all();
-        $purchaseOrder->truncate();
-        return redirect(view('purchase_orders.index', compact('purchaseOrders')))->with('success', 'All purchase orders have been deleted.');
+        PurchaseOrder::truncate();
+
+        return redirect()->route('purchase_orders.index')->with('success', 'All purchase orders have been deleted.');
     }
 
 

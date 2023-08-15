@@ -18,9 +18,7 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->boolean('is_admin')->default(false);
-//            $table->tinyInteger('is_admin');
             $table->boolean('is_active')->default(true);
-//            $table->tinyInteger('is_active');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

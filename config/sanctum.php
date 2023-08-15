@@ -46,7 +46,8 @@ return [
     |
     */
 
-    'expiration' => 60,
+    'expiration' => 15,
+    'personal_access_token_expiration' => 30,
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ return [
     'middleware' => [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
+        'auth:sanctum'
     ],
-
+    'prefix' => 'api',
 ];

@@ -16,12 +16,18 @@ class AuthController extends Controller
             'username' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+
         ]);
 
         User::create([
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+
         ]);
 
         return response()->json(['message' => 'Registration successful'], 201);
@@ -29,25 +35,21 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        // Validate user credentials
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => ['Invalid credentials'],
+            // Generate Access Token and Refresh Token
+            $accessToken = $user->createToken('access_token')->plainTextToken;
+            $refreshToken = $user->createToken('refresh_token', ['refresh-token-scope'])->plainTextToken;
+
+            return response()->json([
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
             ]);
         }
 
-        $user = User::where('email', $request->email)->first();
-
-        return response()->json([
-            'message' => 'Login successful',
-            'email' => $request->email,
-            'name' => $user->username,
-            'token' => $user->createToken('auth-token')->plainTextToken,
-        ]);
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 
     public function logout(Request $request)
@@ -60,11 +62,17 @@ class AuthController extends Controller
 
     public function refresh(Request $request)
     {
-        $request->user()->tokens()->delete();
 
-        return response()->json([
-            'token' => $request->user()->createToken('auth-token')->plainTextToken,
-        ]);
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Validate the Refresh Token and generate a new Access Token
+        $newAccessToken = $user->createToken('access_token')->plainTextToken;
+
+        return response()->json(['access_token' => $newAccessToken]);
     }
 
     public function resetPassword(Request $request)
@@ -85,6 +93,7 @@ class AuthController extends Controller
 
         if (!$this->isValidResetToken($user, $request->token)) {
             return response()->json(['message' => 'Invalid token'], 400);
+            return null;
         }
 
         $this->updatePasswordAndRevokeTokens($user, $request->password);
@@ -100,20 +109,20 @@ class AuthController extends Controller
             return false;
         }
 
-//        if (!$this->tokenNotExpired($lastToken->created_at)) {
-//            return false; // Token has expired
-//        }
+        if (!$this->tokenNotExpired($lastToken->created_at)) {
+            return false; // Token has expired
+        }
 
 
 //        return hash_equals($lastToken->token, hash('sha256', $token));
         return $lastToken;
     }
 
-//    private function tokenNotExpired($createdAt)
-//    {
-//        $expirationTime = config('sanctum.expiration') * 60; // Convert minutes to seconds
-//        return now()->diffInSeconds($createdAt) <= $expirationTime;
-//    }
+    private function tokenNotExpired($createdAt)
+    {
+        $expirationTime = config('sanctum.expiration') * 1; // Convert minutes to seconds
+        return now()->diffInSeconds($createdAt) <= $expirationTime;
+    }
 
     private function updatePasswordAndRevokeTokens(User $user, $newPassword)
     {
@@ -123,4 +132,35 @@ class AuthController extends Controller
 
         $user->tokens()->delete();
     }
+
+    public function refreshToken(Request $request)
+    {
+        $request->validate([
+            'refresh_token' => 'required',
+        ]);
+
+        $refreshToken = $request->refresh_token;
+
+        $http = new \GuzzleHttp\Client([
+            'debug' => true,
+        ]);
+
+        try {
+            $response = $http->post(config('app.url') . '/oauth/token', [
+                'form_params' => [
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => $refreshToken,
+                    'client_id' => config('passport.client_id'),
+                    'client_secret' => config('passport.client_secret'),
+                    'scope' => '',
+                ],
+            ]);
+
+            return response()->json(json_decode((string)$response->getBody(), true));
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            return response()->json('Unable to refresh token. Please log in again.', $e->getCode());
+        }
+    }
+
+
 }

@@ -11,6 +11,10 @@ class Address extends Model
 
     protected $guarded = [];
 
+    protected $attributes = [
+        'addressable_type' => 'asd',
+    ];
+
     public function addressable()
     {
         return $this->morphTo();
