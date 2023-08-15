@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AddressResource;
+use App\Http\Resources\UserResource;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return response()->json($users);
+        $perPage = $request->input('per_page', 10); // You can adjust the default number of items per page
+        $users = User::paginate($perPage);
+
+        return UserResource::collection($users);
+//        return response()->json($users);
     }
 
     /**
@@ -38,7 +44,7 @@ class UserControllerApi extends Controller
         $address = new Address($addressData);
         $user->addresses()->save($address);
 
-        return response()->json([$user, 'message' => 'User and address added successfully'], 201);
+        return new UserResource($user);
     }
 
     /**
@@ -46,7 +52,7 @@ class UserControllerApi extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user);
+        return new UserResource($user);
     }
 
     /**
@@ -74,7 +80,10 @@ class UserControllerApi extends Controller
             $user->addresses()->save($address);
         }
 
-        return response()->json([$user, 'message' => 'User and address updated successfully'], 200);
+        return response()->json([
+            'user' => new UserResource($user),
+            'message' => 'User and address updated successfully'
+        ], 200);
     }
 
     /**
@@ -90,13 +99,11 @@ class UserControllerApi extends Controller
             }
 
             $user->delete();
-            $user->save();
 
             return response()->json(['message' => 'delete done'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'delete failed', 'error' => $e->getMessage()], 500);
         }
     }
-
 
 }

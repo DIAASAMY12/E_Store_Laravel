@@ -106,7 +106,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name . '_' . $this->last_name;
     }
 
     public function getAddressAttribute()
@@ -114,7 +114,6 @@ class User extends Authenticatable
         if ($this->addresses()->exists()) {
             return $this->addresses()->first();
         }
-
         return null;
     }
 
