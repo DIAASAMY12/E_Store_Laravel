@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\UserResource;
 use App\Models\Address;
@@ -16,11 +17,10 @@ class UserControllerApi extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 10); // You can adjust the default number of items per page
+        $perPage = $request->input('pagination', 5);
         $users = User::paginate($perPage);
-
-        return UserResource::collection($users);
-//        return response()->json($users);
+        return response()->diaaJson(UserResource::collection($users));
+//        return UserResource::collection($users);
     }
 
     /**
@@ -99,10 +99,9 @@ class UserControllerApi extends Controller
             }
 
             $user->delete();
-
             return response()->json(['message' => 'delete done'], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'delete failed', 'error' => $e->getMessage()], 500);
+            throw new CustomException();
         }
     }
 

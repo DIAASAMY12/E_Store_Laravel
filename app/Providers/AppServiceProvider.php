@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Macros\CustomResponseMacros;
 use App\Models\PurchaseOrder;
 use App\Observers\PurchaseOrderObserver;
 use Illuminate\Support\ServiceProvider;
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        CustomResponseMacros::register();
     }
 
     /**
@@ -22,6 +23,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         PurchaseOrder::observe(PurchaseOrderObserver::class);
-
     }
 }
