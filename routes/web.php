@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\CustomForgotPasswordController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BrandController;
@@ -15,6 +13,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SeederController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorItemController;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +70,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware('admin')->group(function () {
     Route::resource('users', UserController::class);
-
 });
 
 
@@ -116,3 +114,5 @@ Route::middleware('not_admin')->group(function () {
     Route::delete('/purchase_orders', [PurchaseOrderController::class, 'destroy'])->name('purchase_orders.destroy');
 
 });
+
+Route::post('/users/{user}/send-email', [UserController::class,'sendEmail'])->name('users.send_email');

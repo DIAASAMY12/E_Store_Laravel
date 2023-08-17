@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserControllerApi;
+use App\Http\Controllers\UserNotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('users', UserControllerApi::class);
+

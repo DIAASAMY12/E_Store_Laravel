@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendUserEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -153,4 +154,13 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User soft deleted successfully.');
     }
+
+
+    public function sendEmail(User $user)
+    {
+        // Dispatch the SendUserEmail job to send the email
+        SendUserEmail::dispatch($user);
+        return redirect()->back()->with('success', 'Email sent successfully.');
+    }
+
 }
