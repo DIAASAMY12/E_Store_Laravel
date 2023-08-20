@@ -13,8 +13,6 @@ class CustomResponseMacros
             $response = [
                 'data' => $data,
             ];
-
-
             return response()->json($response, $status, $headers);
         });
     }

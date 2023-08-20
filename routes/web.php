@@ -116,3 +116,7 @@ Route::middleware('not_admin')->group(function () {
 });
 
 Route::post('/users/{user}/send-email', [UserController::class,'sendEmail'])->name('users.send_email');
+
+//Route::get('/users/{userId}', [UserController::class, 'show'])->name('users.show');
+
+Route::get('/getCount', [UserController::class, 'useCounter'])->name('useCounterWithBind');

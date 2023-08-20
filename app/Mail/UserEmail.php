@@ -28,26 +28,7 @@ class UserEmail extends Mailable
             ->view('emails.user_email')
             ->with(['user' => $this->user]);
     }
-
-//    /**
-//     * Get the message envelope.
-//     */
-//    public function envelope(): Envelope
-//    {
-//        return new Envelope(
-//            subject: 'User Email',
-//        );
-//    }
-//
-//    /**
-//     * Get the message content definition.
-//     */
-//    public function content(): Content
-//    {
-//        return new Content(
-//            view: 'view.name',
-//        );
-//    }
+    
 
     /**
      * Get the attachments for the message.

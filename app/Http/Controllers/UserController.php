@@ -4,11 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendUserEmail;
 use App\Models\User;
+use App\Repositories\AddressRepository;
+use App\Repositories\UserRepository;
+use App\Support\CounterService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+
+//    protected $userRepository;
+//    protected $addressRepository;
+//
+//    public function __construct(UserRepository $userRepository, AddressRepository $addressRepository)
+//    {
+//        $this->userRepository = $userRepository;
+//        $this->addressRepository = $addressRepository;
+//    }
+
+
+    public function useCounter(CounterService $counter)
+    {
+//        sing
+        $value1 = app('test1')->increment();
+        $value2 = app('test1')->increment();
+        $value3 = app('test1')->increment();
+//         bind
+        $value4 = app('test2')->increment();
+        $value5 = app('test2')->increment();
+        $value6 = app('test2')->increment();
+
+        return view('users.counter', [
+            'values' => [
+                'value1' => $value1,
+                'value2' => $value2,
+                'value3' => $value3,
+                'value4' => $value4,
+                'value5' => $value5,
+                'value6' => $value6,
+            ]
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -74,7 +111,7 @@ class UserController extends Controller
 
 //        dd($request->all());
 
-        $input=$request->all();
+        $input = $request->all();
 
         User::create($input);
 
@@ -84,9 +121,15 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($userId)
     {
-
+//        // Retrieve the user using the UserRepository
+//        $user = $this->userRepository->find($userId);
+//
+//        // Retrieve the user's address using the AddressRepository
+//        $address = $this->addressRepository->findByUserId($userId);
+//
+//        return view('users.show', compact('user', 'address'));
     }
 
     /**
