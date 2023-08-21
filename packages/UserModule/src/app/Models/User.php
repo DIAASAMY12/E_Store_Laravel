@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace UserModule\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -113,6 +113,11 @@ class User extends Authenticatable
         }
         return null;
     }
+
+//    public function addresses()
+//    {
+//        return $this->hasMany(Address::class, 'addressable_id');
+//    }
 
     public function addresses()
     {
