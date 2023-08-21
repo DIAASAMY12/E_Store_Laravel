@@ -1,0 +1,14 @@
+{
+    "name": "laravel/user-module",
+    "description": "A custom user module for Laravel.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "UserModule\\": "packages/UserModule/src"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "laravel/framework": "^8.0"
+    }
+}
