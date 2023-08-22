@@ -26,7 +26,7 @@ class UserResource extends JsonResource
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'full_name'=>$this->full_name,
+            'full_name' => $this->full_name,
             'address' => AddressResource::collection($this->addresses),
         ];
     }

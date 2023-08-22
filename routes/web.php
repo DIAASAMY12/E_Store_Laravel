@@ -13,11 +13,12 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SeederController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorItemController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+require __DIR__ . '/../packages/UserModule/src/routes/web.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -37,17 +38,17 @@ Route::get('/', function () {
 
 //Route::resource('users', UserController::class);
 
-Route::resource('users', UserController::class)->names([
-    'index' => 'users.index',
-    'create' => 'users.create',
-    'store' => 'users.store',
-    'show' => 'users.show',
-    'edit' => 'users.edit',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
-]);
+//Route::resource('users', UserController::class)->names([
+//    'index' => 'users.index',
+//    'create' => 'users.create',
+//    'store' => 'users.store',
+//    'show' => 'users.show',
+//    'edit' => 'users.edit',
+//    'update' => 'users.update',
+//    'destroy' => 'users.destroy',
+//]);
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 
 Route::get('/run-seeder', [SeederController::class, 'runSeeder'])->name('run.seeder');
@@ -69,7 +70,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 
 Route::middleware('admin')->group(function () {
-    Route::resource('users', UserController::class);
+//    Route::resource('users', UserController::class);
 });
 
 

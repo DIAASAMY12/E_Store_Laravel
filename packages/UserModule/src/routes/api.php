@@ -5,5 +5,5 @@ use UserModule\app\Http\Controllers\UserControllerApi;
 
 
 Route::group(['prefix' => 'api'], function () {
-    Route::apiResource('users', UserControllerApi::class);
+    Route::apiResource('usersApi', UserControllerApi::class);
 });
