@@ -54,25 +54,21 @@ class UserController extends Controller
         $query = User::query();
 
         if ($request->has('username')) {
-            $query->filterByUsername($request->input('username'));
+            $query->filter()->where('username', 'like', '%' . $request->input('username') . '%');
         }
 
         if ($request->has('email')) {
-            $query->filterByEmail($request->input('email'));
+            $query->filter()->where('email', 'like', '%' . $request->input('email') . '%');
         }
 
-        if ($request->has('name')) {
-            $query->filterByName($request->input('name'));
-        }
 
         if ($request->has('is_active')) {
-            $query->filterByIsActive($request->input('is_active'));
+            $query->filter()->where('is_active', (int)$request->input('is_active'));
         }
 
         if ($request->has('is_admin')) {
-            $query->filterByIsAdmin($request->input('is_admin'));
+            $query->filter()->where('is_admin', (int)$request->input('is_admin'));
         }
-
 
         $users = $query->paginate(10);
 

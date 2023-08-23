@@ -30,33 +30,40 @@ class User extends Authenticatable
     /**
      * Scope a query to only include popular users.
      */
-    public function scopeFilterByUsername($query, $username)
+//    public function scopeFilterByUsername($query, $username)
+//    {
+//        return $query->where('username', 'like', '%' . $username . '%');
+//    }
+//
+//    public function scopeFilterByEmail($query, $email)
+//    {
+//        return $query->where('email', 'like', '%' . $email . '%');
+//    }
+//
+//    public function scopeFilterByName($query, $name)
+//    {
+//        return $query->where(function ($query) use ($name) {
+//            $query->where('first_name', 'like', '%' . $name . '%')
+//                ->orWhere('last_name', 'like', '%' . $name . '%');
+//        });
+//    }
+//
+//    public function scopeFilterByIsActive($query, $isActive)
+//    {
+//        return $query->where('is_active', (int)$isActive);
+//    }
+//
+//    public function scopeFilterByIsAdmin($query, $isAdmin)
+//    {
+//        return $query->where('is_admin', (int)$isAdmin);
+//    }
+//
+//
+    public function scopeFilter($query)
     {
-        return $query->where('username', 'like', '%' . $username . '%');
+        return $query;
     }
 
-    public function scopeFilterByEmail($query, $email)
-    {
-        return $query->where('email', 'like', '%' . $email . '%');
-    }
-
-    public function scopeFilterByName($query, $name)
-    {
-        return $query->where(function ($query) use ($name) {
-            $query->where('first_name', 'like', '%' . $name . '%')
-                ->orWhere('last_name', 'like', '%' . $name . '%');
-        });
-    }
-
-    public function scopeFilterByIsActive($query, $isActive)
-    {
-        return $query->where('is_active', (int)$isActive);
-    }
-
-    public function scopeFilterByIsAdmin($query, $isAdmin)
-    {
-        return $query->where('is_admin', (int)$isAdmin);
-    }
 
     /**
      * @return string[]
